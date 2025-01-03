@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>{{highlightjsStyles}}</style>
+</head>
+<body>
+
+    <div class="note-header">
+        <h1 class="note-title">{{ title }}</h1>
+        <p class="note-date text-muted">{{ date }}</p>
+    </div>
+
+    <div class="note-toc">
+        {{ toc | safe }}
+        {# {{ content | toc | safe }} #}
+    </div>
+
+    <div class="note-content">
+        {{ content | safe }}  {# | formatterImage #}
+    </div>
+
+</body>
+</html>

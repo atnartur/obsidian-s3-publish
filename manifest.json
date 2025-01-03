@@ -1,0 +1,11 @@
+{
+	"id": "s3-pdf-publish",
+	"name": "S3 PDF Publish",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "Generates PDF and publishes it to the S3 Bucket",
+	"author": "Obsidian",
+	"authorUrl": "https://obsidian.md",
+	"fundingUrl": "https://obsidian.md/pricing",
+	"isDesktopOnly": false
+}
