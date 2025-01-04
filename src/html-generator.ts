@@ -1,10 +1,10 @@
 import { readFileSync } from 'fs';
 import path from 'path';
 import nunjucks from 'nunjucks';
-import templateContent from './layout.html'
 import {Marked} from 'marked';
 import { markedHighlight } from "marked-highlight";
 import hljs from 'highlight.js';
+import templateContent from './layout.html'
 import highlightJsStyles from 'highlight.js/styles/github-dark.css';
 import picoClassless from '@picocss/pico/css/pico.classless.min.css';
 

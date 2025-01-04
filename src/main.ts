@@ -6,10 +6,11 @@ import {
 	PluginSettingTab,
 	Setting
 } from 'obsidian';
+import crypto from 'crypto';
 import {generateHtml} from "./html-generator";
 import {DEFAULT_SETTINGS, PDFPublisherSettings} from "./settings";
 import uploadFile from "./s3";
-import crypto from 'crypto';
+
 const shasum = crypto.createHash('sha1')
 
 export default class PDFPublisherPlugin extends Plugin {
