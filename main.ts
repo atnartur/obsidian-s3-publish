@@ -236,8 +236,8 @@ export default class PDFPublisherPlugin extends Plugin {
 			// Export to PDF
 			const content = await this.app.vault.read(file);
 			const html = generateHtml(content, file.name)
-			console.log(html);
-			console.log(await this.uploadToS3(html, `${file.name}.pdf`));
+			const fileName = file.name.replace('.md', '.html');
+			await this.uploadToS3(html, fileName);
 
 			new Notice('PDF successfully published to S3');
 		} catch (error) {
@@ -258,7 +258,7 @@ export default class PDFPublisherPlugin extends Plugin {
 				}),
 				region: this.settings.region,
 			}),
-			params: {Bucket: this.settings.bucketName, Key: key, Body: buffer},
+			params: {Bucket: this.settings.bucketName, Key: key, Body: buffer, ContentType: 'text/html'},
 		});
 
 		parallelUploads3.on("httpUploadProgress", (progress) => {
