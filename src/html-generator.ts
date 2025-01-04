@@ -3,9 +3,22 @@ import path from 'path';
 import nunjucks from 'nunjucks';
 import highlightJsStyles from 'highlightjs/styles/github.css';
 import templateContent from './layout.html'
-import * as marked from 'marked';
+import {Marked} from 'marked';
+import { markedHighlight } from "marked-highlight";
+import hljs from 'highlight.js';
 import pico from '@picocss/pico/css/pico.classless.min.css';
 import picoClassless from '@picocss/pico/css/pico.classless.min.css';
+
+const marked = new Marked(
+  markedHighlight({
+	emptyLangClass: 'hljs',
+    langPrefix: 'hljs language-',
+    highlight(code, lang, info) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, { language }).value;
+    }
+  })
+);
 
 nunjucks.configure({ autoescape: false });
 const template = nunjucks.compile(templateContent);
