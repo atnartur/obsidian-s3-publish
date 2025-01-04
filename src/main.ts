@@ -20,7 +20,7 @@ export default class PDFPublisherPlugin extends Plugin {
 		// Add commands
 		this.addCommand({
 			id: 'publish-current-note',
-			name: 'Publish Current Note as PDF',
+			name: 'Publish Note',
 			checkCallback: (checking: boolean) => {
 				const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
 				if (markdownView) {
@@ -52,6 +52,15 @@ export default class PDFPublisherPlugin extends Plugin {
 		return `${fileName}-${shasum.digest('hex').slice(0, 6)}.html`;
 	}
 
+	private validateSettings() {
+		return [
+			this.settings.awsAccessKeyId,
+			this.settings.awsSecretAccessKey,
+			this.settings.region,
+			this.settings.bucketName
+		].every(x => !!x)
+	}
+
 	async publishCurrentNote() {
 		const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
 		if (!markdownView) {
@@ -62,6 +71,11 @@ export default class PDFPublisherPlugin extends Plugin {
 		const file = markdownView.file;
 		if (!file) {
 			new Notice('No file is currently open');
+			return;
+		}
+
+		if (!this.validateSettings()) {
+			new Notice('Fill AWS parameters in the S3 Publish plugin settings');
 			return;
 		}
 
@@ -98,14 +112,13 @@ class PDFPublisherSettingTab extends PluginSettingTab {
 		const {containerEl} = this;
 		containerEl.empty();
 
-		containerEl.createEl('h2', {text: 'PDF Publisher Settings'});
+		containerEl.createEl('h2', {text: 'PDF Publish Settings'});
 
 		new Setting(containerEl)
 			.setName('AWS Access Key ID')
 			.setDesc('Enter your AWS access key ID')
 			.addText(text => text
-				.setPlaceholder('Access Key ID')
-				.setValue(this.plugin.settings.awsAccessKeyId)
+				.setPlaceholder(this.plugin.settings.awsAccessKeyId ? 'Saved value is not shown' : '')
 				.onChange(async (value) => {
 					this.plugin.settings.awsAccessKeyId = value;
 					await this.plugin.saveSettings();
@@ -115,8 +128,7 @@ class PDFPublisherSettingTab extends PluginSettingTab {
 			.setName('AWS Secret Access Key')
 			.setDesc('Enter your AWS secret access key')
 			.addText(text => text
-				.setPlaceholder('Secret Access Key')
-				.setValue(this.plugin.settings.awsSecretAccessKey)
+				.setPlaceholder(this.plugin.settings.awsSecretAccessKey ? 'Saved value is not shown' : '')
 				.onChange(async (value) => {
 					this.plugin.settings.awsSecretAccessKey = value;
 					await this.plugin.saveSettings();
