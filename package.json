@@ -29,7 +29,6 @@
 		"@picocss/pico": "^2.0.6",
 		"aws-sdk": "^2.1692.0",
 		"highlight.js": "^11.11.1",
-		"highlightjs": "^9.16.2",
 		"marked": "^15.0.5",
 		"marked-highlight": "^2.2.1",
 		"nunjucks": "^3.2.4"

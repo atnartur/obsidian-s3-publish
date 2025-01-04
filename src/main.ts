@@ -9,6 +9,8 @@ import {
 import {generateHtml} from "./html-generator";
 import {DEFAULT_SETTINGS, PDFPublisherSettings} from "./settings";
 import uploadFile from "./s3";
+import crypto from 'crypto';
+const shasum = crypto.createHash('sha1')
 
 export default class PDFPublisherPlugin extends Plugin {
 	settings: PDFPublisherSettings;
@@ -44,6 +46,12 @@ export default class PDFPublisherPlugin extends Plugin {
 		await this.saveData(this.settings);
 	}
 
+	private getFileName(noteFileName: string): string {
+		const fileName = noteFileName.replace('.md', '');
+		shasum.update(this.settings.awsSecretAccessKey + fileName);
+		return `${fileName}-${shasum.digest('hex').slice(0, 6)}.html`;
+	}
+
 	async publishCurrentNote() {
 		const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
 		if (!markdownView) {
@@ -60,13 +68,12 @@ export default class PDFPublisherPlugin extends Plugin {
 		try {
 			const content = await this.app.vault.read(file);
 			const html = generateHtml(content, file.name)
-			const fileName = file.name.replace('.md', '.html');
 			const url = await uploadFile(
 				this.settings.awsAccessKeyId,
 				this.settings.awsSecretAccessKey,
 				this.settings.region,
 				this.settings.bucketName,
-				fileName,
+				this.getFileName(file.name),
 				html,
 				'text/html'
 			);

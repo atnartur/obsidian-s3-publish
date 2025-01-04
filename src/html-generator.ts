@@ -1,12 +1,11 @@
 import { readFileSync } from 'fs';
 import path from 'path';
 import nunjucks from 'nunjucks';
-import highlightJsStyles from 'highlightjs/styles/github.css';
 import templateContent from './layout.html'
 import {Marked} from 'marked';
 import { markedHighlight } from "marked-highlight";
 import hljs from 'highlight.js';
-import pico from '@picocss/pico/css/pico.classless.min.css';
+import highlightJsStyles from 'highlight.js/styles/github-dark.css';
 import picoClassless from '@picocss/pico/css/pico.classless.min.css';
 
 const marked = new Marked(
@@ -65,7 +64,7 @@ export function generateHtml(fileContent: string, fileName: string) {
     const splittedFileName = fileName.split(" ");
     const date = splittedFileName.slice(0, 2).join(" ").split('/').slice(-1)[0];
     return template.render({
-        styles: pico + picoClassless + highlightJsStyles,
+        styles: picoClassless + highlightJsStyles,
         title: splittedFileName.slice(2).join(" ").replace('.md', ''),
         date,
         content: replaceImagesWikiTags(marked.parse(fileContent)),
