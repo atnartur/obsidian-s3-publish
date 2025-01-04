@@ -2,10 +2,11 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import nunjucks from 'nunjucks';
 import highlightJsStyles from 'highlightjs/styles/github.css';
-import templateContent from './layout.njk'
+import templateContent from './layout.html'
 import * as marked from 'marked';
+import pico from '@picocss/pico/css/pico.classless.min.css';
+import picoClassless from '@picocss/pico/css/pico.classless.min.css';
 
-// nunjucks
 nunjucks.configure({ autoescape: false });
 const template = nunjucks.compile(templateContent);
 
@@ -51,7 +52,7 @@ export function generateHtml(fileContent: string, fileName: string) {
     const splittedFileName = fileName.split(" ");
     const date = splittedFileName.slice(0, 2).join(" ").split('/').slice(-1)[0];
     return template.render({
-        highlightJsStyles,
+        styles: pico + picoClassless + highlightJsStyles,
         title: splittedFileName.slice(2).join(" ").replace('.md', ''),
         date,
         content: replaceImagesWikiTags(marked.parse(fileContent)),
