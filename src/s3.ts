@@ -150,8 +150,11 @@ export default async function uploadFile(
 			Key: key,
 			Body: body,
 			ContentType: contentType,
-			GrantRead: '*'
+			ACL: 'public-read'
 		},
 	});
 	await upload.done();
+
+	const url = new URL(key, `https://${bucket}.s3.${region}.amazonaws.com`);
+	return url.toString();
 }

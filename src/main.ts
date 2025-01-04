@@ -61,7 +61,7 @@ export default class PDFPublisherPlugin extends Plugin {
 			const content = await this.app.vault.read(file);
 			const html = generateHtml(content, file.name)
 			const fileName = file.name.replace('.md', '.html');
-			await uploadFile(
+			const url = await uploadFile(
 				this.settings.awsAccessKeyId,
 				this.settings.awsSecretAccessKey,
 				this.settings.region,
@@ -70,8 +70,8 @@ export default class PDFPublisherPlugin extends Plugin {
 				html,
 				'text/html'
 			);
-
-			new Notice('PDF successfully published to S3');
+            await navigator.clipboard.writeText(url);
+			new Notice('Public file link has been copied');
 		} catch (error) {
 			new Notice(`Error publishing PDF: ${error.message}`);
 			console.error(error);
