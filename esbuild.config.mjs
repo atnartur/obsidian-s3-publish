@@ -15,7 +15,7 @@ const context = await esbuild.context({
 	banner: {
 		js: banner,
 	},
-	entryPoints: ["main.ts"],
+	entryPoints: ["src/main.ts"],
 	bundle: true,
 	external: [
 		"obsidian",
@@ -40,7 +40,8 @@ const context = await esbuild.context({
 	outfile: "main.js",
 	minify: prod,
 	loader: {
-		'.njk': 'text'
+		'.njk': 'text',
+		'.css': 'text'
 	}
 });
 

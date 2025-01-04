@@ -28,12 +28,6 @@
 		"@aws-sdk/lib-storage": "^3.717.0",
 		"aws-sdk": "^2.1692.0",
 		"highlightjs": "^9.16.2",
-		"markdown-it": "^14.1.0",
-		"markdown-it-anchor": "^9.2.0",
-		"markdown-it-checkbox": "^1.1.0",
-		"markdown-it-highlightjs": "^4.2.0",
-		"markdown-it-mark": "^4.0.0",
-		"markdown-toc": "^1.2.0",
 		"marked": "^15.0.5",
 		"nunjucks": "^3.2.4"
 	}

@@ -1,12 +1,6 @@
 import { readFileSync } from 'fs';
 import path from 'path';
-// import markdownit from 'markdown-it'
-// import mdAnchor from 'markdown-it-anchor';
-// import mdHighlightjs from 'markdown-it-highlightjs';
-// import mdCheckbox from 'markdown-it-checkbox';
-// import mdMark from 'markdown-it-mark';
 import nunjucks from 'nunjucks';
-// import markdownToc from 'markdown-toc';
 import highlightJsStyles from 'highlightjs/styles/github.css';
 import templateContent from './layout.njk'
 import * as marked from 'marked';
@@ -14,17 +8,6 @@ import * as marked from 'marked';
 // nunjucks
 nunjucks.configure({ autoescape: false });
 const template = nunjucks.compile(templateContent);
-
-/** slugs generator for table of content */
-// const slugify = (s: string) => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'))
-
-// markdown
-// const md = markdownit({ breaks: true, linkify: true });
-// md.use(mdAnchor, { slugify });
-// md.use(mdHighlightjs, { auto: false });
-// md.use(mdCheckbox);
-// md.use(mdMark);
-
 
 /** check image format */
 function checkFormatImage(line: string) {
@@ -72,6 +55,5 @@ export function generateHtml(fileContent: string, fileName: string) {
         title: splittedFileName.slice(2).join(" ").replace('.md', ''),
         date,
         content: replaceImagesWikiTags(marked.parse(fileContent)),
-        // toc: md.render(markdownToc(fileContent, {slugify}).content)
     });
 }
