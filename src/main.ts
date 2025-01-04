@@ -11,8 +11,6 @@ import {generateHtml} from "./html-generator";
 import {DEFAULT_SETTINGS, PDFPublisherSettings} from "./settings";
 import uploadFile from "./s3";
 
-const shasum = crypto.createHash('sha1')
-
 export default class PDFPublisherPlugin extends Plugin {
 	settings: PDFPublisherSettings;
 
@@ -49,6 +47,7 @@ export default class PDFPublisherPlugin extends Plugin {
 
 	private getFileName(noteFileName: string): string {
 		const fileName = noteFileName.replace('.md', '');
+		const shasum = crypto.createHash('sha1');
 		shasum.update(this.settings.awsSecretAccessKey + fileName);
 		return `${fileName}-${shasum.digest('hex').slice(0, 6)}.html`;
 	}
